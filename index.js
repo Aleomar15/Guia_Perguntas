@@ -19,7 +19,9 @@ app.use(bodyParser.urlencoded({extended: false}));// ele vai premitir que o body
 app.use(bodyParser.json());//perimite ler formularios utilizando json
 //Rotas
 app.get("/",(req,res)=>{
-    Pergunta.findAll({raw : true}).then(perguntas =>{
+    Pergunta.findAll({raw : true, order:[
+        ["id","DESC"]]//ASC = Crescente || DESC = Decrecente
+    }).then(perguntas =>{
         res.render("index",{
             perguntas: perguntas
         });
@@ -37,7 +39,21 @@ app.post("/saveQuestion",(req,res)=>{
    }).then(()=>{
         res.redirect("/");
    });
-});
+});app.get("/pergunta/:id",(req,res)=> {
+    var id = req.params.id;
+    perModel.findOne({
+        where: {id: id }
+    }).then(pergunta => {
+        if(pergunta != undefined){//Pergunta achada
+            res.render("pergunta",{
+                pergunta: pergunta
+            });
+        }else{//Não foi encontrada
+            res.redirect("/");
+        }
+    })
+}); //Vai buscar apenas um dado no banco de dados
+
 app.listen(8080,()=>{
     console.log("App rodando!")
 });
