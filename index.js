@@ -4,6 +4,7 @@ const app = express();
 const connection = require("./database/database");
 const Pergunta = require("./database/Pergunta");
 const perModel = require("./database/Pergunta");
+const resModel = require("./database/Resposta")
 //Database
 connection.authenticate().then(()=>{
     console.log("Conexão feita com o banco de dados")
@@ -53,6 +54,16 @@ app.post("/saveQuestion",(req,res)=>{
         }
     })
 }); //Vai buscar apenas um dado no banco de dados
+app.post("/responder",(req,res)=>{
+    var corpo = req.body.corpo;
+    var perguntaId= req.body.pergunta;
+    resModel.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(()=>{
+        res.redirect(`/pergunta/${perguntaId}`);
+    });
+});
 
 app.listen(8080,()=>{
     console.log("App rodando!")

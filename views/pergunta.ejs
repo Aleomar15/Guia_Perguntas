@@ -6,6 +6,14 @@
         <h1><%= pergunta.titulo %></h1>
         <p><%= pergunta.descricao %></p>
         <hr>
+        <form method="post" action="/responder">
+            <h2>Responder</h2>
+            <label>Resposta:</label>
+            <br>
+            <textarea placeholder="Digite sua resposta " class="form-control" name="corpo"></textarea>
+            <input type="hidden" name="pergunta" value="<%= pergunta.id %>">
+            <button type="submit" class="btn btn-primary">Responder</button>
+        </form>
     </div>
 </body>
 
