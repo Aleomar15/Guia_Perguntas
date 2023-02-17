@@ -4,6 +4,7 @@ const app = express();
 const connection = require("./database/database");
 const Pergunta = require("./database/Pergunta");
 const perModel = require("./database/Pergunta");
+const Resposta = require("./database/Resposta");
 const resModel = require("./database/Resposta")
 //Database
 connection.authenticate().then(()=>{
@@ -46,8 +47,14 @@ app.post("/saveQuestion",(req,res)=>{
         where: {id: id }
     }).then(pergunta => {
         if(pergunta != undefined){//Pergunta achada
-            res.render("pergunta",{
-                pergunta: pergunta
+            Resposta.findAll({
+                where: {perguntaId: pergunta.id},
+                order:[['id','DESC']]
+            }).then(respostas => {
+                res.render("pergunta",{
+                    pergunta: pergunta,
+                    respostas: respostas
+                });
             });
         }else{//Não foi encontrada
             res.redirect("/");
