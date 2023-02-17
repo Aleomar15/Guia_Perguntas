@@ -18,8 +18,6 @@
 - JavaScript
 - Bootstrap
 
-## Implantação
-- Ainda não hospedado
 
 # Autor 
 Alexandre Oliveira Marinho
